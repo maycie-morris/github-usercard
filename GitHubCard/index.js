@@ -1,8 +1,15 @@
+import axios from 'axios';
+
 /*
   STEP 1: using axios, send a GET request to the following URL
     (replacing the placeholder with your Github name):
     https://api.github.com/users/<your name>
 */
+
+// axios.get('https://api.github.com/users/maycie-morris')
+//   .then(response => {
+//     console.log(response.data);
+//   });
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -49,6 +56,64 @@ const followersArray = [];
       </div>
     </div>
 */
+
+// Objects
+
+function githubCard (obj) {
+  const divCard = document.createElement('div');
+  const img = document.createElement('img');
+  const divCardInfo = document.createElement('div');
+  const header3 = document.createElement('h3');
+  const pUsername = document.createElement('p');
+  const pLocation = document.createElement('p');
+  const pProfile = document.createElement('p');
+  const anchor = document.createElement('a');
+  const pFollowers = document.createElement('p');
+  const pFollowing = document.createElement('p');
+  const pBio = document.createElement('p');
+
+  // Classes
+
+  divCard.classList.add('card');
+  divCardInfo.classList.add('card-info');
+  header3.classList.add('name');
+  pUsername.classList.add('username');
+
+  // Content
+
+  img.src = obj.avatar_url;
+  header3.textContent = obj.name;
+  pUsername.textContent = obj.login;
+  pLocation.textContent = `Location: ` + obj.location;
+  anchor.href = obj.html_url;
+  anchor.textContent = obj.html_url;
+  pFollowers.textContent = `Followers: ` + obj.followers;
+  pFollowing.textContent = `Following: ` + obj.following;
+  pBio.textContent = `Bio: ` + obj.bio;
+
+  // Append
+
+  pProfile.appendChild(anchor);
+  divCardInfo.append(header3, pUsername, pLocation, pProfile, pFollowers, pFollowing, pBio);
+  divCard.appendChild(img);
+  divCard.appendChild(divCardInfo);
+  
+
+
+  return divCard;
+}
+
+const cardEntry = document.querySelector('.cards')
+
+axios.get('https://api.github.com/users/maycie-morris')
+  .then(response => {
+    cardEntry.appendChild(githubCard(response.data));
+    });
+
+
+
+  
+
 
 /*
   List of LS Instructors Github username's:
