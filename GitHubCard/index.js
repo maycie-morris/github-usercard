@@ -6,10 +6,8 @@ import axios from 'axios';
     https://api.github.com/users/<your name>
 */
 
-// axios.get('https://api.github.com/users/maycie-morris')
-//   .then(response => {
-//     console.log(response.data);
-//   });
+const promise = axios.get('https://api.github.com/users/maycie-morris');
+const promise2 = axios.get('https://api.github.com/users/maycie-morris/followers');
 
 /*
   STEP 2: Inspect and study the data coming back, this is YOUR
@@ -105,11 +103,26 @@ function githubCard (obj) {
 
 const cardEntry = document.querySelector('.cards')
 
-axios.get('https://api.github.com/users/maycie-morris')
-  .then(response => {
+
+  promise.then(response => {
     cardEntry.appendChild(githubCard(response.data));
+    })
+    .catch(err => {
+      console.log('Error!', err)
     });
 
+
+    // STEP FIVE
+
+    promise2.then(response => {
+      const friends = response.data;
+      friends.forEach(data => {
+        cardEntry.appendChild(githubCard(data))
+      })
+    })
+    .catch(err => {
+      console.log('Nope!', err)
+    })
 
 
   
